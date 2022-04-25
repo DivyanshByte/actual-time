@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Actual Local Time</title>
+</head>
+
+<body>
+	<span>Time Zone Time: <span id="tzt"></span></span><br><br>
+	<span>Actual Local Time: <span id="alt"></span></span><br><br>
+	<span>Actual UTC Offset: <span id="aoff"></span></span><br><br>
+	<input id="custom" type="number" placeholder="Test Custom Longitude Value"><br><br>
+	<button id="btnGet">Get Time</button><br>
+	<script type="text/javascript">
+	let intervalId = null;
+	document.getElementById("btnGet").onclick = function() {
+		clearInterval(intervalId);
+		if(document.getElementById("custom").value == "") {
+			navigator.geolocation.getCurrentPosition((result) => {
+				lat = result.coords.longitude;
+				offset = (lat * 24 / 360);
+				document.getElementById("aoff").innerHTML = offset;
+				setClock(offset);
+			})
+		} else {
+			lat = Number.parseFloat(document.getElementById("custom").value);
+			offset = (lat * 24 / 360);
+			document.getElementById("aoff").innerHTML = offset;
+			setClock(offset);
+		}
+	}
+	setClock = (offset) => {
+		intervalId = setInterval(() => {
+			zone_time = new Date()
+			console.log(offset, zone_time)
+			document.getElementById("tzt").innerHTML = zone_time.toLocaleString();
+			utc_time = new Date(zone_time.getUTCFullYear(), zone_time.getUTCMonth(), zone_time.getUTCDate(), zone_time.getUTCHours(), zone_time.getUTCMinutes(), zone_time.getUTCSeconds());
+			actual_time = new Date(utc_time.getTime() + (offset * 60 * 60000));
+			document.getElementById("alt").innerHTML = actual_time.toLocaleString();
+		}, 1000);
+	}
+	</script>
+</body>
+
+</html>
