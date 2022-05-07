@@ -20,14 +20,17 @@
 		if(document.getElementById("custom").value == "") {
 			navigator.geolocation.getCurrentPosition((result) => {
 				lat = result.coords.longitude;
+				document.getElementById("custom").value = lat;
 				offset = (lat * 24 / 360);
-				document.getElementById("aoff").innerHTML = offset;
+				offsetMinutes = (offset-Math.floor(offset))*60
+				document.getElementById("aoff").innerHTML = offset+" ("+Math.floor(offset)+" hours, "+Math.floor(offsetMinutes)+" minutes, "+(offsetMinutes-Math.floor(offsetMinutes))*60+" seconds)";
 				setClock(offset);
 			})
 		} else {
 			lat = Number.parseFloat(document.getElementById("custom").value);
 			offset = (lat * 24 / 360);
-			document.getElementById("aoff").innerHTML = offset;
+			offsetMinutes = (offset-Math.floor(offset))*60
+			document.getElementById("aoff").innerHTML = offset+" ("+Math.floor(offset)+" hours, "+Math.floor(offsetMinutes)+" minutes, "+(offsetMinutes-Math.floor(offsetMinutes))*60+" seconds)";
 			setClock(offset);
 		}
 	}
