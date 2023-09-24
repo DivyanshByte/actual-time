@@ -1,4 +1,4 @@
-# actual-time
+# Actual-Time
 A way to see the actual time corresponding to the longitude of your location.
 
 > **Daylight saving will probably not work.**
